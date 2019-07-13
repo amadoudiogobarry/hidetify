@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560481295375.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1077913191",
+    "id" : "6A111143",
+    "lastKnownWriteTime" : 1560483743,
+    "last_content_update" : 1560483743299,
+    "path" : "~/hidetify/src/rcpp_mask_swamp_stat.cpp",
+    "project_path" : "src/rcpp_mask_swamp_stat.cpp",
+    "properties" : {
+        "cursorPosition" : "19,0",
+        "scrollLine" : "12"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "cpp"
+}

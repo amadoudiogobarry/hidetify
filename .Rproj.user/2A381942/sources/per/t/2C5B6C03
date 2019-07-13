@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560481351694.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3993857157",
+    "id" : "2C5B6C03",
+    "lastKnownWriteTime" : 1560481487,
+    "last_content_update" : 1560481487681,
+    "path" : "~/hidetify/src/rcpp_shidetify.cpp",
+    "project_path" : "src/rcpp_shidetify.cpp",
+    "properties" : {
+        "cursorPosition" : "31,32",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "cpp"
+}

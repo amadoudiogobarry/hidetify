@@ -1,0 +1,32 @@
+[
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/amarou/hidetify/src/rcpp_HIM_sdetect.cpp",
+        "file_last_write" : 1560481416.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/amarou/hidetify/src/rcpp_asymHIM_sdetect.cpp",
+        "file_last_write" : 1560481433.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/amarou/hidetify/src/rcpp_mask_swamp_stat.cpp",
+        "file_last_write" : 1560483743.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/amarou/hidetify/src/rcpp_shidetify.cpp",
+        "file_last_write" : 1560481487.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/amarou/hidetify/src/rcpparma_hello_world.cpp",
+        "file_last_write" : 1560475338.000000
+    }
+]
