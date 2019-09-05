@@ -43,7 +43,7 @@ ease_swamping(x,y,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-A vector of index, identifying the estimated non-influential subjects
+A index vector identifying the estimated non-influential observations using a conservative approach
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
@@ -54,7 +54,7 @@ A vector of index, identifying the estimated non-influential subjects
 %% ~put references to the literature/web site here ~
 }
 \author{
-Amadou Barry
+Amadou Barry \email{barryhafia@gmail.com}
 %%  ~~who you are~~
 }
 \note{
@@ -67,14 +67,38 @@ Amadou Barry
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x)
+## Simulate a dataset where the first 10 observations are influentials
+require("MASS")
+asymvec  <- c(0.25,0.5,0.75)
+beta_param <- c(3,1.5,0,0,2,rep(0,1000-5))
+gama_param <- c(0,0,1,1,0,rep(1,1000-5))
+# Covariance matrice for the predictors distribution 
+sigmain <- diag(rep(1,1000))
+for (i in 1:1000)
 {
+  for (j in i:1000) 
+  {
+    sigmain[i,j] <- 0.5^(abs(j-i))
+    sigmain[j,i] <- sigmain[i,j]
   }
+}
+
+set.seed(13)
+x  <- mvrnorm(100, rep(0, 1000), sigmain)
+error_var <- rnorm(100)
+y  <- x %*% beta_param + error_var
+# Generate influential observations
+youtlier = y
+youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:n_tilde]
+xquant <- apply(x,2,quantile,asymvec)
+yquant <- quantile(y,asymvec)
+inv_rob_sdx <- 1/apply(x,2,mad)
+rob_sdy = mad(y)
+number_subset = 5
+size_subset = 100/2
+est_clean_set = 1:100
+alpha = 0.05
+est_clean_set_ease_swamping = ease_swamping(x,y,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset,est_clean_set,asymvec,ep=0.1,alpha)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

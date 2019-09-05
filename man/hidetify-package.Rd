@@ -15,7 +15,7 @@ The DESCRIPTION file:
 \packageIndices{hidetify}
 ~~ An overview of how to use the package, including the most important functions ~~
 }
-\author{
+\author{    
 \packageAuthor{hidetify}
 
 Maintainer: \packageMaintainer{hidetify}
