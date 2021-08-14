@@ -2,20 +2,19 @@
 
 #include <RcppArmadilloExtensions/sample.h>
 
-
+using namespace Rcpp;
+using namespace RcppArmadillo;
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
 
-// colvec as ouput for rcpp_sample
-// For coversion type see: https://zenglix.github.io/Rcpp_basic/
-// http://gallery.rcpp.org/articles/using-the-Rcpp-based-sample-implementation/
 // [[Rcpp::export]]
-arma::uvec rcpp_sample(arma::uvec& x, int size, bool replace) {
-  Rcpp::NumericVector y = Rcpp::wrap(x);
-  Rcpp::NumericVector ret = sample(y, size, replace, Rcpp::NumericVector::create());
-  arma::uvec ret1 = Rcpp::as<arma::uvec>(ret);
-  return ret1;
+arma::uvec arma_sample(arma::uvec& x, int size, bool replace) {
+  int nx = x.n_elem;
+  arma::vec alpha_prob(nx); 
+  alpha_prob.fill(0.5);
+  arma::uvec out = sample(x, size, replace, alpha_prob);
+  return out;
 }
 
 
@@ -57,7 +56,7 @@ arma::mat rcpp_mask_swamp_stat(const arma::mat& x, const arma::colvec& y, const 
 {
   int nrow = x.n_rows, ncol = x.n_cols, nasym = asymvec.n_elem, size_est_clean_set = est_clean_set.n_elem;
   //int nrow = x.n_rows, ncol = x.n_cols, nasym = asymvec.n_elem;
-
+  
   est_clean_set = est_clean_set - 1;
   arma::mat x1(nrow, ncol);
   arma::mat xnew1((size_subset+1), ncol);
@@ -76,45 +75,45 @@ arma::mat rcpp_mask_swamp_stat(const arma::mat& x, const arma::colvec& y, const 
   arma::vec rhat1(ncol);
   arma::vec rhat2(ncol);
   arma::uvec new_obs(1);
-
-
+  
+  
   for (int i = 0; i < size_est_clean_set; i++)
   {
     //double i = 0;
     new_obs = est_clean_set[i];
     arma::uvec index_sample = rcpp_setdiff(est_clean_set, new_obs);
-
+    
     for (int k = 0; k < number_subset; k++)
     {
-      newSet =  rcpp_sample(index_sample, size_subset, FALSE);
-
+      newSet = arma_sample(index_sample, size_subset, FALSE);
+      
       for (int j = 0; j < nasym; j++) {
         x1 = x - arma::ones(nrow,1)*xquant.row(j);
         x1 = x1*arma::diagmat(inv_rob_sdx);
         yquant_vec.fill(yquant[j]);
         y1 = (y-yquant_vec)/rob_sdy;
-
-
+        
+        
         newSet1 = arma::join_cols(new_obs, newSet);
-
+        
         xnew1 = x1.rows(newSet1);
         ynew1 = y1.elem(newSet1);
         rhat1 = (xnew1.t()*ynew1)/(size_subset+1);
-
+        
         xnew2 = x1.rows(newSet);
         ynew2 = y1.elem(newSet);
         rhat2 = xnew2.t()*ynew2/size_subset;
         TT(k,j) = pow((size_subset+1),2)*(sum(pow((rhat1-rhat2),2))/ncol);
       }
-
+      
       min_TT[k] = min(TT.row(k)); // Prendre le min de chaque ligne
       sum_TT[k] = sum(TT.row(k)); // Prendre la somme de chaque ligne
     }
-
+    
     min_min_Him[i] = min(min_TT);
     max_sum_Him[i] = max(sum_TT);
   }
-
+  
   return(arma::join_rows(min_min_Him,max_sum_Him));
   //return(TT);
 }

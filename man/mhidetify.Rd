@@ -1,61 +1,42 @@
 \name{mhidetify}
 \alias{mhidetify}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Compute the asymmetric influence measure for high dimensional regression.
-%%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 Compute the asymmetric influential measure to identify influential observations in high dimensional regression.
 }
 \usage{
-mhidetify(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha)
+mhidetify(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha_swamp, alpha_mask, alpha_validate)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{ Matrix with the values of the predictors.
-%%     ~~Describe \code{x} here~~
-}
-  \item{y}{ Numertic vector of the response variable.   }
-
-  \item{number_subset}{ Number of random subsets.}
-
+  \item{x}{ Matrix with the values of the predictors.}
+  \item{y}{ Numertic vector of the response variable.}
+  \item{number_subset}{Number of random subsets.}
   \item{size_subset}{ Size of the random subsets. The default is half of the initial sample size.}
-
-  \item{asymvec}{ Numertic vector of the asymmetric values. The three points of the quartile (0.25,0.5,0.75) give best results.}
-
+  \item{asymvec}{ Numertic vector of the asymmetric values.}
   \item{ep}{ Threshold value to ensure that the estimated clean set is not empty. The default value is 0.1.}
+  \item{alpha_swamp}{Significance level for the swamping stage.}
+  \item{alpha_mask}{Significance level for the masking stage.}
+  \item{alpha_validate}{Significance level for the validation stage.}
+}
 
-  \item{alpha}{Scalar value for the Type I error level. The default value is 0.05}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A dataframe with two variables.
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-\item{ind }{Index of the observations}
-\item{outlier_ind }{Influential observations indicator: 1 if influential and 0 otherwise}
-%% ...
+\item{ind }{Index of the subjects of the sample}
+\item{outlier_ind }{Influential observations indicator: 1 is influential and 0 otherwise}
 }
 \references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-Amadou Barry \email{barryhafia@gmail.com}
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2020). \emph{Asymmetric
+influence measure for high dimensional regression}. Communications in Statistics - Theory and
+Methods.
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2021). \emph{An algorithm-based multiple detection influence measure for high dimensional regression using expectile}. 
+arXiv: 2105.12286 [stat]. arXiv: 2105.12286.
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
+\author{Amadou Barry \email{barryhafia@gmail.com}}
+
 \examples{
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
@@ -79,13 +60,13 @@ error_var <- rnorm(100)
 y  <- x %*% beta_param + error_var
 # Generate influential observations
 youtlier = y
-youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:n_tilde]
+youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:10]
 number_subset = 5
 size_subset = 100/2
-alpha = 0.05
-df_multiple_influential = mhidetify(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha)
+asymvec=c(0.25,0.5,0.75)
+out = mhidetify(x, youtlier, number_subset, size_subset, asymvec, ep=0.1, alpha_swamp = 0.1, 
+alpha_mask = 0.01, alpha_validate = 0.01)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+
+

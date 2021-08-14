@@ -1,22 +1,14 @@
 \name{ease_swanping}
 \alias{ease_swanping}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ Compute the min of the min of a sequence of asymmetric influence measure
-%%  ~~function to do ... ~~
-}
+\title{ Compute the min of the min of a sequence of asymmetric influence measure}
 \description{
-This function is part of the algorithm which identify multiple influential observations in high dimension linear regression.
-It computes the min of the min of the asymmetric influence measure to ease the swanping effect
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+This function is part of the algorithm which identify multiple influential observations in high dimension linear regression.It computes the min of the min of the asymmetric influence measure to ease the swanping effect}
 \usage{
-ease_swamping(x,y,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset,est_clean_set,asymvec,ep,alpha)
+ease_swamping(x,y,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset,est_clean_set,asymvec,ep=0.1,alpha)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
-  \item{x}{ Matrix with the values of the predictors.
-%%     ~~Describe \code{x} here~~
-}
+  \item{x}{ Matrix with the values of the predictors.}
   \item{y}{ Numertic vector of the response variable.   }
 
   \item{xquant }{ Matrix with the quantiles of the predictors. }
@@ -33,39 +25,19 @@ ease_swamping(x,y,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset
 
   \item{est_clean_set}{ The subjct id of the estimated clean subset. The default is the initial sample.}
 
-  \item{asymvec}{ Numertic vector of the asymmetric values. The three points of the quartile (0.25,0.5,0.75) give best results.}
+  \item{asymvec}{ Numertic vector of the asymmetric values.}
 
   \item{ep}{ Threshold value to ensure that the estimated clean set is not empty. The default value is 0.1.}
 
-  \item{alpha}{Scalar value for the Type I error level. The default value is 0.05}
+  \item{alpha}{Significance level. }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 A index vector identifying the estimated non-influential observations using a conservative approach
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
-Amadou Barry \email{barryhafia@gmail.com}
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+Amadou Barry \email{barryhafia@gmail.com}}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
@@ -89,7 +61,7 @@ error_var <- rnorm(100)
 y  <- x %*% beta_param + error_var
 # Generate influential observations
 youtlier = y
-youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:n_tilde]
+youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:10]
 xquant <- apply(x,2,quantile,asymvec)
 yquant <- quantile(y,asymvec)
 inv_rob_sdx <- 1/apply(x,2,mad)
@@ -98,9 +70,14 @@ number_subset = 5
 size_subset = 100/2
 est_clean_set = 1:100
 alpha = 0.05
-est_clean_set_ease_swamping = ease_swamping(x,y,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset,est_clean_set,asymvec,ep=0.1,alpha)
+est_clean_set_ease_swamping = ease_swamping(x,youtlier,xquant, yquant, inv_rob_sdx, rob_sdy,number_subset,size_subset,est_clean_set,asymvec,ep=0.1,alpha)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\references{
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2020). \emph{Asymmetric
+influence measure for high dimensional regression}. Communications in Statistics - Theory and
+Methods.
+
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2021). \emph{An algorithm-based multiple detection influence measure for high dimensional regression using expectile}. 
+arXiv: 2105.12286 [stat]. arXiv: 2105.12286.
+}

@@ -1,22 +1,16 @@
 \name{ease_masking}
 \alias{ease_masking}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ Compute the max of the sum of a sequence of asymmetric influence measure
-%%  ~~function to do ... ~~
+\title{ Compute the max of the sum of a sequence of asymmetric influence measure.
 }
 \description{
-This function is part of the algorithm which identify multiple influential observations in high dimension.
-It computes the max statistic of the asymmetric influence measure to ease the masking effect
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This function is part of the algorithm which identify multiple influential observations in high dimension. It computes the max statistic of the asymmetric influence measure to ease the masking effect
 }
 \usage{
 ease_masking(x,y, xquant, yquant, inv_rob_sdx, rob_sdy, number_subset, size_subset, est_clean_set, asymvec,alpha=0.05)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
-  \item{x}{ Matrix with the values of the predictors.
-%%     ~~Describe \code{x} here~~
-}
+  \item{x}{ Matrix with the values of the predictors.}
   \item{y}{ Numertic vector of the response variable.   }
 
   \item{xquant }{ Matrix with the quantiles of the predictors. }
@@ -31,39 +25,18 @@ ease_masking(x,y, xquant, yquant, inv_rob_sdx, rob_sdy, number_subset, size_subs
 
   \item{size_subset}{ Size of the random subsets. The default is half of the initial sample size.}
 
-  \item{est_clean_set}{ The subjct id of the estimated clean subset. The default is the initial sample}
+  \item{est_clean_set}{ The subject id of the estimated clean subset. The default is the initial sample}
 
-  \item{asymvec}{ Numertic vector of the asymmetric values. The three points of the quartile (0.25,0.5,0.75) give best results}
+  \item{asymvec}{ Numertic vector of the asymmetric values or percentiles.}
 
-  \item{alpha}{Scalar value for the Type I error level. The default value is 0.05}
+  \item{alpha}{Significance level.}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-A index vector identifying the estimated non-influential observations using an agressive approach
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-Amadou Barry \email{barryhafia@gmail.com}
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+A index vector identifying the estimated non-influential observations using an agressive approach}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\author{Amadou Barry \email{barryhafia@gmail.com}}
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,
@@ -91,7 +64,7 @@ error_var <- rnorm(100)
 y  <- x %*% beta_param + error_var
 # Generate influential observations
 youtlier = y
-youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:n_tilde]
+youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:10]
 xquant <- apply(x,2,quantile,asymvec)
 yquant <- quantile(y,asymvec)
 inv_rob_sdx <- 1/apply(x,2,mad)
@@ -100,12 +73,16 @@ number_subset = 5
 size_subset = 100/2
 est_clean_set = 1:100
 alpha = 0.05
-est_clean_set_ease_masking = ease_masking(x,y, xquant, yquant, inv_rob_sdx, rob_sdy, number_subset,size_subset,est_clean_set,asymvec,alpha)
+est_clean_set_ease_masking = ease_masking(x, youtlier, xquant, yquant, inv_rob_sdx, rob_sdy, number_subset,size_subset,est_clean_set,asymvec,alpha)
 
 }
 
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\references{
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2020). \emph{Asymmetric
+influence measure for high dimensional regression}. Communications in Statistics - Theory and
+Methods.
+
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2021). \emph{An algorithm-based multiple detection influence measure for high dimensional regression using expectile}. 
+arXiv: 2105.12286 [stat]. arXiv: 2105.12286.
+}

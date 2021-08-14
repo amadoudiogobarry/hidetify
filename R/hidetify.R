@@ -1,7 +1,6 @@
 #### main function
-hidetify = function(predictors, response, nsample=5, ssize, vtau=c(0.25,0.5,0.75), alpha_shide = 0.05, alpha_dcon = 0.1, 
-                    alpha_swamp = 0.1, alpha_mask = 0.01, alpha_validate = 0.01, method = c("single", "multiple"), 
-                    dcontamination = "yes")
+hidetify = function(predictors, response, nsample=5, ssize=floor(nrow(x)/2), vtau=c(0.25,0.5,0.75), alpha_shide = 0.05, 
+                    alpha_swamp = 0.1, alpha_mask = 0.01, alpha_validate = 0.01, method = c("single", "multiple"))
 {
 
   method = match.arg(method)
@@ -25,7 +24,13 @@ hidetify = function(predictors, response, nsample=5, ssize, vtau=c(0.25,0.5,0.75
   }
 
 
-  if (dcontamination == "yes") {
+
+    
+  if (method == "single") {
+    
+    dfout <- shidetify(x, y, asymvec, alpha_shide)
+    
+  } else if (method == "multiple") {
     
     if (any(nsample %% 1 != 0 || ssize %% 1 != 0)){
       warning("nsample and ssize are integers")
@@ -33,26 +38,11 @@ hidetify = function(predictors, response, nsample=5, ssize, vtau=c(0.25,0.5,0.75
       number_subset <- nsample
       size_subset <- ssize
     }
-    dfout <- dcontaminate(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha_dcon)
-    
-  } else {
-    
-    if (method == "single") {
-      
-      dfout <- shidetify(x, y, asymvec, alpha_shide)
-      
-    } else if (method == "multiple") {
-      
-      if (any(nsample %% 1 != 0 || ssize %% 1 != 0)){
-        warning("nsample and ssize are integers")
-      } else {
-        number_subset <- nsample
-        size_subset <- ssize
-      }
-      dfout <- mhidetify(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha_swamp, alpha_mask, alpha_validate)
-    }
+    dfout <- mhidetify(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha_swamp, alpha_mask, alpha_validate)
     
   }
+    
+
 
 
   dfout

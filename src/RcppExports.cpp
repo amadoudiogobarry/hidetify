@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // rcpp_HIM_sdetect
 arma::vec rcpp_HIM_sdetect(const arma::mat& x, const arma::colvec& y, const arma::mat& xquant, const arma::colvec& yquant, const arma::colvec& inv_rob_sdx, const double rob_sdy, arma::uvec& inf_set, arma::uvec& non_inf_set);
 RcppExport SEXP _hidetify_rcpp_HIM_sdetect(SEXP xSEXP, SEXP ySEXP, SEXP xquantSEXP, SEXP yquantSEXP, SEXP inv_rob_sdxSEXP, SEXP rob_sdySEXP, SEXP inf_setSEXP, SEXP non_inf_setSEXP) {
@@ -43,16 +48,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_sample
-arma::uvec rcpp_sample(arma::uvec& x, int size, bool replace);
-RcppExport SEXP _hidetify_rcpp_sample(SEXP xSEXP, SEXP sizeSEXP, SEXP replaceSEXP) {
+// arma_sample
+arma::uvec arma_sample(arma::uvec& x, int size, bool replace);
+RcppExport SEXP _hidetify_arma_sample(SEXP xSEXP, SEXP sizeSEXP, SEXP replaceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::uvec& >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
     Rcpp::traits::input_parameter< bool >::type replace(replaceSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_sample(x, size, replace));
+    rcpp_result_gen = Rcpp::wrap(arma_sample(x, size, replace));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -153,7 +158,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_hidetify_rcpp_HIM_sdetect", (DL_FUNC) &_hidetify_rcpp_HIM_sdetect, 8},
     {"_hidetify_rcpp_asymHIM_sdetect", (DL_FUNC) &_hidetify_rcpp_asymHIM_sdetect, 9},
-    {"_hidetify_rcpp_sample", (DL_FUNC) &_hidetify_rcpp_sample, 3},
+    {"_hidetify_arma_sample", (DL_FUNC) &_hidetify_arma_sample, 3},
     {"_hidetify_rcpp_setdiff", (DL_FUNC) &_hidetify_rcpp_setdiff, 2},
     {"_hidetify_rcpp_mask_swamp_stat", (DL_FUNC) &_hidetify_rcpp_mask_swamp_stat, 10},
     {"_hidetify_rcpp_shidetify", (DL_FUNC) &_hidetify_rcpp_shidetify, 8},

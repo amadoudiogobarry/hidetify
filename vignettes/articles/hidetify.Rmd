@@ -1,0 +1,116 @@
+---
+title: "High dimensional Influence Measure - Hidetify"
+author: "Amadou Barry"
+abstract: "A comprehensive guide to using the hidetify package for identifying influential observations in high dimentional linear regression."
+output: 
+  pdf_document:
+    highlight: "tango"
+bibliography: "hidetify.bib"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tinytex)
+load('C:/Users/amadou.barry/Documents/PostDoc/MultipleOutlierDetection/hidetify/data/sim_hidetify_data.RData')
+```
+
+
+
+# Introduction
+
+High-dimensional data are also prone to influential observations that can drastically affect inference and lead to biased results and erroneous conclusions. In classical statistics, there exist various tools (Chatterjee and Hadi 1986) to identify influential observations. However, their application in high dimension (number of features equal or greater than the number of samples) is challenging and their adaptation unsuccessful. For example, the Cook distance technique (reference) is not feasible in the Glmnet framework (reference) because the Glmnet estimator is unstable and computationally intensive, partly due to the regularization and cross-validation tasks.
+
+The package Hidetify implements the algorithm of two different methods that identify influential observations in high dimensional linear regression (number of features equal or greater than the number of samples). In this vignette we describe the basic functionality of the package for these two methods.
+
+
+In this vignette, we illustrate the basic functionality of the package by preprocessing the simulated data (sim_hidetify_data) contained in the Hidetify package. Data were simulated using a linear regression model with 100 observations and 1000 predictors. In this model the response variable of the first 10 observations are contaminated which makes these 10 observations influential observations. There are other contamination schemes where it is the predictor space or both (response and predictor) that are contaminated.  The details of the simulation design can be found in @barryAsymmetricInfluenceMeasure2020. Note that the package has been used to preprocess the Autism Brain Imaging Data Exchange (ABIDE) neuro-imaging dataset (@dimartinoAutismBrainImaging2014).
+
+We can load the data in our environment by calling the package.
+```{r eval=TRUE}
+library(hidetify)
+
+```
+
+
+# Single Detection Technique
+
+The first method is an adaptation of Cook's measure (@cookInfluentialObservationsLinear1979a) for high dimensional data. The method relies on the concept of expectile to construct an influence measure based on asymmetric correlations. The details of this method are presented in @barryAsymmetricInfluenceMeasure2020. 
+
+The main function `hidetify` with the 'single' option of the parameter method calls the `shidetify` function to identify the influential observations according to the single detection technique. The `shidetify` function takes as input the design matrix `x`, the response variable `y`, the asymmetric vector `asymvec` and the significance level `alpha_shide`. The asymmetric vector is used to compute the asymmetric correlation. When the asymmetric value $\tau=0.5$ then we obtain the classical correlation. We suggest using 3 asymmetric point within the quartile. We apply the `hidetify` function to identify the influential observations in the sim_hidetify_data.
+
+```{r eval=TRUE}
+# response variable
+y = df$y
+youtlier = df$youtlier
+# design matrix
+x = as.matrix(df[, -c(1,2)])
+# asymmetric vector
+vtau=c(0.25,0.5,0.75)
+# option for the single detection technique
+method = "single"
+# The rest of the parameter can be left as is they are used in this process
+out = hidetify(x, youtlier, nsample=5, ssize=floor(nrow(x)/2), vtau, alpha_shide = 0.05, 
+alpha_swamp = 0.1, alpha_mask = 0.01, alpha_validate = 0.01, method = method)
+
+head(out, n=15)
+
+sum(out$outlier_ind)
+
+```
+ 
+The single detection identified 12 observations as influential observations where 7 of them are real influential observations and 5 of them are "good" observations. We can plot the boxplot of the response variable to visualize the location of the influential observations.
+
+```{r eval=TRUE}
+library(ggpubr)
+df_plot = data.frame(response = c(y, youtlier), type = rep(c('Original', 'Corrupted'), 
+                                                           each=length(y)),
+                     influential = c(rep(0, length(y)), rep(c(1,0), c(10, 90)) ) )
+df_plot$influential = as.factor(df_plot$influential)
+
+ggboxplot(df_plot, x = "type", y = "response", color="type")
+
+```
+
+
+# Multiple Detection Technique
+
+The single detection approach is ineffective in addressing the problems of masking and swamping. The phenomenon of masking is observed when several influential observations with similar characteristics are in the same proximity and hide each others. The swamping effect is observed when the influential observations are near the boundary of the space spanned by well-behaved observations. The second detection method presented in @barryAlgorithmbasedMultipleDetection2021 improves the single detection approach and mitigates the dual phenomena of masking and swamping effects. The multiple detection technique applies a group deletion procedure to build the algorithm on three main steps. The first stage applies an ultra conservative score to mitigate the swamping effect, the second stage uses the clean sample generated in the previous stage and applies an aggressive score to attenuate the masking phenomenon. Finally, the last step is concerned with the validation of the influential set generated by the two previous steps. The procedure is repeated iteratively until convergence is achieved. The details of the method are presented in @barryAlgorithmbasedMultipleDetection2021 
+
+The main function `hidetify` with the 'multiple' option of the parameter method calls the `mhidetify` function to identify the influential observations according to the multiple detection technique. The `mhidetify` function takes many parameters as input. We apply the `hidetify` function to identify the influential observations in the sim_hidetify_data.
+
+```{r eval=TRUE}
+# Number of the random subset 
+nsample = 5
+# Size of the random subset
+ssize = floor(nrow(x)/2)
+# The vector of asymetric points
+vtau = c(0.2,0.5,0.7)
+# Significance level for the single detection step, not use here
+alpha_shide = 0.05
+# Significance level for the swamping step
+alpha_swamp = 0.1
+# Significance level for the masking step
+alpha_mask = 0.01
+# Significance level for the validation step
+alpha_validate = 0.01
+
+# Option for the multiple detection approach
+method = "multiple"
+
+mout = hidetify(x, youtlier, nsample, ssize, vtau, alpha_shide, alpha_swamp, alpha_mask,
+                alpha_validate, method)
+
+head(mout, n=15)
+
+sum(mout$outlier_ind)
+
+```
+
+As we can see, we have identified more influential observations $80\%$ and less false positive (3) compared to the single detection technique.
+
+\clearpage
+
+# References

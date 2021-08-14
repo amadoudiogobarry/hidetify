@@ -1,73 +1,73 @@
 \name{hidetify}
 \alias{hidetify}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ Identify the influential observations in high dimensional regression
-%%  ~~function to do ... ~~
-}
+\title{ Identify the influential observations in high dimensional regression}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 This function uses the asymmetric high dimensional influence measure and a groupe deletion approach
 to identify influential observations in high dimensional regression setting. It also computes a single influential detection procedure.
 }
 \usage{
-hidetify(predictors, response, nsample=5, ssize, vtau=c(0.25,0.5,0.75), valpha = 0.05, method = c("single", "multiple"))
+hidetify(predictors, response, nsample=5, ssize, vtau=c(0.25,0.5,0.75), alpha_shide = 0.05, 
+alpha_swamp = 0.1, alpha_mask = 0.01, alpha_validate = 0.01, 
+method = c("single", "multiple"),)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{predictors}{ Matrix with the values of the predictors.
-%%     ~~Describe \code{x} here~~
-}
-  \item{response}{ Numertic vector of the response variable.   }
-
-  \item{number_subset}{ Number of random subsets. The default is 5}
-
-  \item{ssize}{ Size of the random subsets. The default is half of the initial sample size.}
-
-  \item{vtau}{ Numertic vector of the asymmetric values. The three points of the quartile (0.25,0.5,0.75) give best results.}
-
-  \item{valpha}{Scalar value for the Type I error level. The default value is 0.05}
-
-  \item{method}{Single or multiple detection appraoch}
-
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{predictors}{ Matrix with the values of the predictors.}
+  \item{response}{ Numertic vector of the response variable.}
+  \item{nsample}{Number of random subsets, default is 5.}
+  \item{ssize}{Size of the random subsets. The default is half of the initial sample size.}
+  \item{vtau}{ Numertic vector of the asymmetric values.}
+  \item{alpha_shide}{Significance level for the single detection method. }
+  \item{alpha_swamp}{Significance level for the swamping stage.}
+  \item{alpha_mask}{Significance level for the masking stage.}
+  \item{alpha_validate}{Significance level for the validation stage.}
+  \item{method}{The parameter option for the detection method}
 }
 \value{
 A dataframe with two variables.
-%%  ~Describe the value returned
-%%  If it is a LIST, use
 \item{ind }{Index of the subjects of the sample}
 \item{outlier_ind }{Influential observations indicator: 1 is influential and 0 otherwise}
-%% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-Amadou Barry
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2020). \emph{Asymmetric
+influence measure for high dimensional regression}. Communications in Statistics - Theory and
+Methods.
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2021). \emph{An algorithm-based multiple detection influence measure for high dimensional regression using expectile}. 
+arXiv: 2105.12286 [stat]. arXiv: 2105.12286.
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
+\author{Amadou Barry \email{barryhafia@gmail.com}}
+
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x)
+## Simulate a dataset where the first 10 observations are influentials
+require("MASS")
+asymvec  <- c(0.25,0.5,0.75)
+beta_param <- c(3,1.5,0,0,2,rep(0,1000-5))
+gama_param <- c(0,0,1,1,0,rep(1,1000-5))
+# Covariance matrice for the predictors distribution 
+sigmain <- diag(rep(1,1000))
+for (i in 1:1000)
 {
+  for (j in i:1000) 
+  {
+    sigmain[i,j] <- 0.5^(abs(j-i))
+    sigmain[j,i] <- sigmain[i,j]
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+set.seed(13)
+x  <- mvrnorm(100, rep(0, 1000), sigmain)
+error_var <- rnorm(100)
+y  <- x %*% beta_param + error_var
+# Generate influential observations
+youtlier = y
+youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:10]
+nsample = 5
+ssize = 100/2
+est_clean_set = 1:100
+vtau=c(0.25,0.5,0.75)
+alpha_shide = 0.05
+out = hidetify(x, youtlier, nsample, ssize, vtau, alpha_shide, alpha_dcon = 0.1, alpha_swamp = 0.1,
+alpha_mask = 0.01, alpha_validate = 0.01, method = "single", dcontamination = "no")
+}
+

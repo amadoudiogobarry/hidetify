@@ -1,13 +1,9 @@
 ## Hidetify - High dimensional Influence Measure
 
 ### What is Hidetify?
-Hidetify is a high dimensional influence measure for identifying influential observations in high dimensionnal linear regression (number of features equal or greater than the number of samples). This package comes with the paper (Multiple detection of influential observations in high dimensional linear regression) describing the details of the procedure.
+Hidetify is a high dimensional influence measure for identifying influential observations in high dimensional linear regression (number of features equal or greater than the number of samples). This package comes with the paper (Multiple detection of influential observations in high dimensional linear regression) describing the details of the procedure.
 
-The package provides three main features.
-
-# Degree of contamination
-The module <code> dcontaminate </code> can be used to evaluate the degree of contamination of the data. It is based on an ultra conservative score for the identification of influential observations. The assessment of the contamination rate is achieved by setting 'yes' to the <code> dcontaminate </code> option of the 
-<code> hidetify </code> function.
+The package provides two main features.
 
 # Single Outlier Detection 
 The module <code> shidetify </code> apply a single outlier detection method to the data. Caution is required in the application of this method. Indeed, there is often a risk that the data may be affected by the adverse effects of swamping and masking. Unless you are sure of what you are doing, it is suggested that you use the <code> mhidetify </code> module. 

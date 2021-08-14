@@ -1,70 +1,44 @@
 \name{vhidetify}
 \alias{vhidetify}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-%%  ~~function to do ... ~~
-Compute the single influence measure to validate the estimated influential set 
+\title{ Compute the single influence measure to validate the estimated influential set 
 }
 \description{
-This function is part of the algorithm which indentify multiple influential observations in high dimension.
-It applies a single detection technique to validate the  estimated influential set.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This function is part of the algorithm which indentify multiple influential observations in high dimension. It applies a single detection technique to validate the  estimated influential set.
 }
 \usage{
   vhidetify(x, y, xquant, yquant, inv_rob_sdx, rob_sdy, asymvec, inf_set, non_inf_set, alpha)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
-  \item{x}{ Matrix with the values of the predictors.
-%%     ~~Describe \code{x} here~~
-}
-  \item{y}{ Numertic vector of the response variable.   }
-
-  \item{xquant }{ Matrix with the quantiles of the predictors. }
-
+  \item{x}{ Matrix with the values of the predictors.}
+  \item{y}{ Numertic vector of the response variable.}
+  \item{xquant }{ Matrix of the quantiles of the predictors. }
   \item{yquant }{ Numertic vector of the quantiles of the response variable.}
-
   \item{inv_rob_sdx}{ Numertic vector of the inverse of the median absolute deviation of the predictors. }
-
   \item{rob_sdy}{ Median absolute deviation of the response variable. }
-
-  \item{asymvec}{ Numertic vector of the asymmetric values. The three points of the quartile (0.25,0.5,0.75) give best results.}
-
+  \item{asymvec}{ Numertic vector of the asymmetric values.}
   \item{inf_set}{Estimated of influential set}
-
   \item{non_inf_set}{Estimated of non-influential set}
+  \item{alpha}{Significance level. }
+}
 
-  \item{alpha}{Scalar value for the Type I error level. The default value is 0.05}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
 Vector of index values containing the influential observations id.
 \item{inf_setfinal }{The final set of influential observations }
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2020). \emph{Asymmetric
+influence measure for high dimensional regression}. Communications in Statistics - Theory and
+Methods.
+
+Barry, A., Bhagwat, N., Misic, B., Poline, J.-B., and Greenwood, C. M. T. (2021). \emph{An algorithm-based multiple detection influence measure for high dimensional regression using expectile}. 
+arXiv: 2105.12286 [stat]. arXiv: 2105.12286.
 }
 \author{
 Amadou Barry \email{barryhafia@gmail.com}
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
-
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
 asymvec  <- c(0.25,0.5,0.75)
@@ -87,7 +61,7 @@ error_var <- rnorm(100)
 y  <- x %*% beta_param + error_var
 # Generate influential observations
 youtlier = y
-youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:n_tilde]
+youtlier[1:10] <- x[1:10,]%*%(beta_param +  1.2*gama_param)  + error_var[1:10]
 xquant <- apply(x,2,quantile,asymvec)
 yquant <- quantile(y,asymvec)
 inv_rob_sdx <- 1/apply(x,2,mad)
@@ -98,10 +72,6 @@ est_clean_set = 1:100
 alpha = 0.05
 inf_set = 1:20
 non_inf_set = 21:100
-final_inf_set = vhidetify(x, y, xquant, yquant, inv_rob_sdx, rob_sdy, asymvec, inf_set, non_inf_set, alpha)
-
+final_inf_set = vhidetify(x, youtlier, xquant, yquant, inv_rob_sdx, rob_sdy, asymvec, inf_set, non_inf_set, alpha)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

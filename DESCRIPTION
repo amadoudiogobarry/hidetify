@@ -1,11 +1,22 @@
 Package: hidetify
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Identifying influential observations in high dimensionnal linear regression
+Version: 0.0.1
 Date: 2019-06-13
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-Imports: Rcpp (>= 1.0.1)
+Author: Amadou Barry
+Maintainer: Amadou Barry <barryhafia@gmail.com>
+Description: Take a response and a design matrix as input and output a set of potential influential observations in the high dimensionnal linear regression framework.
+License: GPL-3
+URL: https://github.com/AmBarry/hidetify
+BugReports: https://github.com/AmBarry/hidetify/issues
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Depends:
+    R (>= 4.1.1)
+Imports: Rcpp (>= 1.0.7)
 LinkingTo: Rcpp, RcppArmadillo
+Suggests: 
+    testthat (>= 3.0.0),
+    rmarkdown
+Config/testthat/edition: 3
