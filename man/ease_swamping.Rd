@@ -1,62 +1,67 @@
-\name{vhidetify}
-\alias{vhidetify}
+\name{ease_swamping}
+\alias{ease_swamping}
 \author{Amadou Barry \email{barryhafia@gmail.com}}
-\title{Compute the single influence measure to validate the estimated influential set.}
+\title{Compute the min of the min of a sequence of asymmetric influence measure}
 \description{
-This function is part of the algorithm which indentify multiple influential 
-observations in high dimension. 
-It applies a single detection technique to validate 
-the  estimated influential set.
-}
-
+This function is part of the algorithm which identify multiple influential 
+observations in high dimension linear regression.It computes the min of 
+the min of the asymmetric influence measure to ease the swanping effect}
 \usage{
-  vhidetify(
-    x, 
-    y, 
-    xquant, 
-    yquant, 
-    inv_rob_sdx, 
-    rob_sdy, 
-    asymvec, 
-    inf_set, 
-    non_inf_set, 
-    alpha
-    )
+ease_swamping(
+  x,
+  y, 
+  xquant, 
+  yquant, 
+  inv_rob_sdx, 
+  rob_sdy, 
+  number_subset, 
+  size_subset, 
+  est_clean_set, 
+  asymvec,
+  ep=0.1,
+  alpha
+  )
 }
 
 \arguments{
-  \item{x}{Matrix of the predictors.}
+
+  \item{x}{ Matrix with the values of the predictors.}
   
-  \item{y}{Numertic vector of the response variable.}
-  
-  \item{xquant}{Matrix of the quantiles of the predictors.}
-  
-  \item{yquant}{Numertic vector of the quantiles of the response variable.}
-  
-  \item{inv_rob_sdx}{Numertic vector of the inverse of 
+  \item{y}{ Numertic vector of the response variable.}
+
+  \item{xquant }{ Matrix with the quantiles of the predictors. }
+
+  \item{yquant }{ Numeric vector of the quantiles of the response variable.}
+
+  \item{inv_rob_sdx}{ Numertic vector of the inverse of 
   the median absolute deviation of the predictors.}
-  
-  \item{rob_sdy}{Median absolute deviation of the response variable.}
-  
-  \item{asymvec}{Numeric vector of the asymmetric values or percentiles.
+
+  \item{rob_sdy}{ Median absolute deviation of the response variable.}
+
+  \item{number_subset}{ Number of random subsets.}
+
+  \item{size_subset}{ Size of the random subsets. The default is 
+  half of the initial sample size.}
+
+  \item{est_clean_set}{ The subjct id of the estimated clean subset. 
+  The default is the initial sample.}
+
+  \item{asymvec}{Numertic vector of the asymmetric values.
     It is suggested to choose 3 asymetric points within the 
   quartile.}
-  
-  \item{inf_set}{Estimated set of influential observations}
-  
-  \item{non_inf_set}{Estimated set of non-influential observations}
-  
-  \item{alpha}{Significance level. }
+
+  \item{ep}{ Threshold value to ensure that the estimated clean set 
+  is not empty. The default value is 0.1.}
+
+  \item{alpha}{Significance level.}
 }
 
 \value{
-Vector of index values containing the influential observations id.
-\item{inf_setfinal}{The final set of influential observations.}
+A index vector identifying the estimated non-influential observations 
+using a conservative approach
 }
 
-
 \examples{
-
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
 # the vector of asymetric point
@@ -120,26 +125,23 @@ size_subset = 100/2
 # the initial clean set
 est_clean_set = 1:100
 
-# influential set
-inf_set = 1:20
-
-# non-influential set
-non_inf_set = 21:100
-
 # the significance level
 alpha = 0.05
 
-final_inf_set = 
-  vhidetify(
+# the function to run
+est_clean_set_ease_swamping =
+  ease_swamping(
     x, 
     youtlier, 
     xquant, 
     yquant, 
     inv_rob_sdx, 
     rob_sdy, 
-    asymvec, 
-    inf_set, 
-    non_inf_set, 
+    number_subset,
+    size_subset,
+    est_clean_set,
+    asymvec,
+    ep=0.1,
     alpha)
 }
 

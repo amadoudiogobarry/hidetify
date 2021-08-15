@@ -9,8 +9,8 @@ rcpp_asymHIM_sdetect <- function(x, y, xquant, yquant, inv_rob_sdx, rob_sdy, asy
     .Call(`_hidetify_rcpp_asymHIM_sdetect`, x, y, xquant, yquant, inv_rob_sdx, rob_sdy, asymvec, inf_set, non_inf_set)
 }
 
-rcpp_sample <- function(x, size, replace) {
-    .Call(`_hidetify_rcpp_sample`, x, size, replace)
+arma_sample <- function(x, size, replace) {
+    .Call(`_hidetify_arma_sample`, x, size, replace)
 }
 
 rcpp_setdiff <- function(x, y) {
@@ -23,21 +23,5 @@ rcpp_mask_swamp_stat <- function(x, y, xquant, yquant, inv_rob_sdx, rob_sdy, num
 
 rcpp_shidetify <- function(x, y, xquant, yquant, inv_rob_sdx, rob_sdy, asymvec, row_indice) {
     .Call(`_hidetify_rcpp_shidetify`, x, y, xquant, yquant, inv_rob_sdx, rob_sdy, asymvec, row_indice)
-}
-
-rcpparma_hello_world <- function() {
-    .Call(`_hidetify_rcpparma_hello_world`)
-}
-
-rcpparma_outerproduct <- function(x) {
-    .Call(`_hidetify_rcpparma_outerproduct`, x)
-}
-
-rcpparma_innerproduct <- function(x) {
-    .Call(`_hidetify_rcpparma_innerproduct`, x)
-}
-
-rcpparma_bothproducts <- function(x) {
-    .Call(`_hidetify_rcpparma_bothproducts`, x)
 }
 

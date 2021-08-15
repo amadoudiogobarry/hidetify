@@ -1,3 +1,6 @@
 useDynLib(hidetify, .registration=TRUE)
 importFrom(Rcpp, evalCpp)
+importFrom(MASS, mvrnorm)
+importFrom(stats, quantile, pchisq, mad)
 exportPattern("^[[:alpha:]]+")
+

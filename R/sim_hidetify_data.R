@@ -1,4 +1,4 @@
-#' Toy data (sim_hidetify_data) for the hidetify package
+#' sim_hidetify_data for the hidetify package
 #'
 #' Simulated toy data that comes with the hidetify package.
 #' The data is generated according to model I of the single detection paper

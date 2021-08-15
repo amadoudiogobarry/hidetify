@@ -43,10 +43,10 @@ The main function `hidetify` with the 'single' option of the parameter method ca
 
 ```{r eval=TRUE}
 # response variable
-y = df$y
-youtlier = df$youtlier
+y = sim_hidetify_data$y
+youtlier = sim_hidetify_data$youtlier
 # design matrix
-x = as.matrix(df[, -c(1,2)])
+x = as.matrix(sim_hidetify_data[, -c(1,2)])
 # asymmetric vector
 vtau=c(0.25,0.5,0.75)
 # option for the single detection technique

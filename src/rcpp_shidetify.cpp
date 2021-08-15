@@ -43,5 +43,5 @@ arma::mat rcpp_shidetify(const arma::mat x, const arma::colvec y, const arma::ma
   return(asymHIM);
 }
 
-// Il faut l'inclure dans une fonction qui genere les p-valeurs et l'indice des outliers
+
 

@@ -1,8 +1,8 @@
 Package: hidetify
 Type: Package
-Title: Identifying influential observations in high dimensionnal linear regression
+Title: Identifying Influential Observations in High Dimensional Linear Regression
 Version: 0.0.1
-Date: 2019-06-13
+Date: 2021-08-14
 Author: Amadou Barry
 Maintainer: Amadou Barry <barryhafia@gmail.com>
 Description: Take a response and a design matrix as input and output a set of potential influential observations in the high dimensionnal linear regression framework.
@@ -13,10 +13,11 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Depends:
-    R (>= 4.1.1)
-Imports: Rcpp (>= 1.0.7)
+    R (>= 3.6)
+Imports: stats, MASS, Rcpp (>= 1.0.7)
 LinkingTo: Rcpp, RcppArmadillo
 Suggests: 
     testthat (>= 3.0.0),
     rmarkdown
 Config/testthat/edition: 3
+RoxygenNote: 7.1.1

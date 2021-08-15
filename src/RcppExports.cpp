@@ -111,49 +111,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpparma_hello_world
-arma::mat rcpparma_hello_world();
-RcppExport SEXP _hidetify_rcpparma_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpparma_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_outerproduct
-arma::mat rcpparma_outerproduct(const arma::colvec& x);
-RcppExport SEXP _hidetify_rcpparma_outerproduct(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_outerproduct(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_innerproduct
-double rcpparma_innerproduct(const arma::colvec& x);
-RcppExport SEXP _hidetify_rcpparma_innerproduct(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_innerproduct(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_bothproducts
-Rcpp::List rcpparma_bothproducts(const arma::colvec& x);
-RcppExport SEXP _hidetify_rcpparma_bothproducts(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_bothproducts(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_hidetify_rcpp_HIM_sdetect", (DL_FUNC) &_hidetify_rcpp_HIM_sdetect, 8},
@@ -162,10 +119,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_hidetify_rcpp_setdiff", (DL_FUNC) &_hidetify_rcpp_setdiff, 2},
     {"_hidetify_rcpp_mask_swamp_stat", (DL_FUNC) &_hidetify_rcpp_mask_swamp_stat, 10},
     {"_hidetify_rcpp_shidetify", (DL_FUNC) &_hidetify_rcpp_shidetify, 8},
-    {"_hidetify_rcpparma_hello_world", (DL_FUNC) &_hidetify_rcpparma_hello_world, 0},
-    {"_hidetify_rcpparma_outerproduct", (DL_FUNC) &_hidetify_rcpparma_outerproduct, 1},
-    {"_hidetify_rcpparma_innerproduct", (DL_FUNC) &_hidetify_rcpparma_innerproduct, 1},
-    {"_hidetify_rcpparma_bothproducts", (DL_FUNC) &_hidetify_rcpparma_bothproducts, 1},
     {NULL, NULL, 0}
 };
 
