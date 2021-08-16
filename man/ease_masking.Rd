@@ -59,6 +59,8 @@ using an agressive approach
 }
 
 \examples{
+\dontrun{
+
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
 # the vector of asymetric point
@@ -92,14 +94,14 @@ error_var <- rnorm(100)
 
 # the response variable
 y  <- x \%*\% beta_param + error_var
-y = as.numeric(y)
+y <- as.numeric(y)
 
 ### Generate influential observations
 
 # the contaminated response variable
-youtlier = y
+youtlier <- y
 youtlier[1:10] <- x[1:10,] \%*\% (beta_param +  1.2*gama_param)  + error_var[1:10]
-youtlier = as.numeric(youtlier)
+youtlier <- as.numeric(youtlier)
 
 # the quantile of the predictors
 xquant <- apply(x,2,quantile,asymvec)
@@ -111,19 +113,19 @@ yquant <- quantile(youtlier,asymvec)
 inv_rob_sdx <- 1/apply(x,2,mad)
 
 # the mad contaminated response variable
-rob_sdy = mad(youtlier)
+rob_sdy <- mad(youtlier)
 
 # the number of random subsets
-number_subset = 5
+number_subset <- 5
 
 # the size of random subsets
-size_subset = 100/2
+size_subset <- 100/2
 
 # the initial clean set
-est_clean_set = 1:100
+est_clean_set <- 1:100
 
 # the significance level
-alpha = 0.05
+alpha <- 0.05
 
 # the function to run
 est_clean_set_ease_masking =
@@ -139,6 +141,7 @@ est_clean_set_ease_masking =
     est_clean_set,
     asymvec,
     alpha)
+}
 }
 
 

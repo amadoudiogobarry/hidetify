@@ -62,6 +62,7 @@ using a conservative approach
 }
 
 \examples{
+\dontrun{
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
 # the vector of asymetric point
@@ -143,6 +144,7 @@ est_clean_set_ease_swamping =
     asymvec,
     ep=0.1,
     alpha)
+}
 }
 
 \references{

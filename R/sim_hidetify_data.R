@@ -21,9 +21,9 @@
 #' }
 #' @references This data set was artificially created for the hidetify package.
 #' @keywords datasets
-#' @examples
-#'
+#' 
+#' @examples#'
 #' data(sim_hidetify_data)
-#' head(sim_hidetify_data)
+#' ## head(sim_hidetify_data)
 #'
 "sim_hidetify_data"

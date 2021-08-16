@@ -52,6 +52,7 @@ A dataframe with two variables.
 }
 
 \examples{
+\dontrun{
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
 # the vector of asymetric point
@@ -123,6 +124,7 @@ out =
     alpha_swamp, 
     alpha_mask,
     alpha_validate)
+}
 }
 
 

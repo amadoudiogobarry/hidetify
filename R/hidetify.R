@@ -1,9 +1,19 @@
 #### main function
-hidetify = function(predictors, response, nsample=5, ssize=floor(length(response)/2), vtau=c(0.25,0.5,0.75), alpha_shide = 0.05, 
-                    alpha_swamp = 0.1, alpha_mask = 0.01, alpha_validate = 0.01, method = c("single", "multiple"))
+hidetify <- function(
+                      predictors, 
+                      response, 
+                      nsample=5, 
+                      ssize=floor(length(response)/2), 
+                      vtau=c(0.25,0.5,0.75), 
+                      alpha_shide = 0.05, 
+                      alpha_swamp = 0.1, 
+                      alpha_mask = 0.01, 
+                      alpha_validate = 0.01, 
+                      method = c("single", "multiple")
+                      )
 {
 
-  method = match.arg(method)
+  method <- match.arg(method)
 
   if (!is.matrix(predictors)){
     warning("predictors has to be a matrix object")
@@ -38,7 +48,8 @@ hidetify = function(predictors, response, nsample=5, ssize=floor(length(response
       number_subset <- nsample
       size_subset <- ssize
     }
-    dfout <- mhidetify(x, y, number_subset, size_subset, asymvec, ep=0.1, alpha_swamp, alpha_mask, alpha_validate)
+    dfout <- mhidetify(x, y, number_subset, size_subset, asymvec, 
+                       ep=0.1, alpha_swamp, alpha_mask, alpha_validate)
     
   }
     

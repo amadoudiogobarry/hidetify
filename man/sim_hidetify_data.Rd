@@ -27,7 +27,8 @@ are contaminated. The rest of the variables (1000) are the predictors.
 \examples{
 
 data(sim_hidetify_data)
-head(sim_hidetify_data)
+## head(sim_hidetify_data)
+
 
 }
 \references{

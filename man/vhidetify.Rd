@@ -56,6 +56,7 @@ Vector of index values containing the influential observations id.
 
 
 \examples{
+\dontrun{
 
 ## Simulate a dataset where the first 10 observations are influentials
 require("MASS")
@@ -141,6 +142,8 @@ final_inf_set =
     inf_set, 
     non_inf_set, 
     alpha)
+    
+}
 }
 
 \references{
